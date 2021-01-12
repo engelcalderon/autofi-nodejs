@@ -17,6 +17,22 @@ const parseCsv = file => {
     });
 };
 
+/**
+ * Prepare data to insert in DB using a provider's configuration
+ * 
+ * @param {Object} data - an object with a provider's data
+ * @param {Object} config - object with a provider's layout configuration
+ */
+const parseWithProviderConfiguration = (data, config) => {
+    return Object.keys(config).reduce((row, key) => {
+        const columnName = config[key];
+        const currentColumn = data[columnName];
+        if (currentColumn) return { ...row, [key]: currentColumn }
+        return row;
+    }, {});
+};
+
 module.exports = {
-    parseCsv
+    parseCsv,
+    parseWithProviderConfiguration
 }

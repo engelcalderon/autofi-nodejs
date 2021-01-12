@@ -4,7 +4,6 @@ const multer  = require('multer')({dest: 'uploads/'});
 const { connect } = require('./db-config');
 const controllers = require('./src/controllers');
 
-
 // connect to database
 connect();
 

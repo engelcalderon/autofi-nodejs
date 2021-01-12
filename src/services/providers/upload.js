@@ -1,7 +1,7 @@
 const Service = require('../../classes/Service');
-const { parseCsv } = require('../../util/data');
+const { parseCsv, parseWithProviderConfiguration } = require('../../util/data');
 const { makeHttpResponse } = require('../../util/api');
-
+const providersConfig = require('../../util/providersConfig');
 
 class ProvidersUpload extends Service {
 
@@ -10,13 +10,18 @@ class ProvidersUpload extends Service {
     }
 
     validate(data) {
-        return data;
+        const { provider, ...rest } = data;
+
+        const providerConfig = providersConfig.find(p => p.name === provider);
+
+        return { ...rest, provider: providerConfig };
     }
 
     executeService(data) {
         const { file, provider } = data;
         return parseCsv(file)
-            .then(data => {
+            .then(_data => {
+                const data = _data.map(d => parseWithProviderConfiguration(d, provider.configuration));
                 return makeHttpResponse({ statusCode: 201, data: data });
             });
     }
