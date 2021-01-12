@@ -1,6 +1,6 @@
 const { expect } = require('chai');
-const { parseWithProviderConfiguration } = require('./data');
-const providersConfig = require('./providersConfig');
+const { parseWithProviderConfiguration } = require('../src/util/data');
+const providersConfig = require('../src/util/providersConfig');
 
 
 describe('data utils', () => {

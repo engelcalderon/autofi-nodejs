@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { required, isNotNull } = require('./validators');
+const { required, isNotNull } = require('../src/util/validators');
 
 
 describe('validators utils', () => {
