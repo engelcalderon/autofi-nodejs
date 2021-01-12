@@ -10,6 +10,7 @@ const executeService = (Service, fnGetData) => async (req, res) => {
         const { statusCode = 500, response = {} } = result || {};
         return res.status(statusCode).send(response);
     } catch (err) {
+        return res.send(err);
     }
 }
 

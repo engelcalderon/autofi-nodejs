@@ -1,4 +1,5 @@
 const Service = require('../../classes/Service');
+const ProviderModel = require('../../models/providers');
 const { parseCsv, parseWithProviderConfiguration } = require('../../util/data');
 const { makeHttpResponse } = require('../../util/api');
 const providersConfig = require('../../util/providersConfig');
@@ -22,7 +23,9 @@ class ProvidersUpload extends Service {
         return parseCsv(file)
             .then(_data => {
                 const data = _data.map(d => parseWithProviderConfiguration(d, provider.configuration));
-                return makeHttpResponse({ statusCode: 201, data: data });
+                return ProviderModel
+                    .insertMany(data)
+                    .then(result => makeHttpResponse({ statusCode: 201, data: result }));
             });
     }
 
