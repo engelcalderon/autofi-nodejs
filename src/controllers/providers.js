@@ -3,5 +3,5 @@ const executeService = require('../util/service');
 const ProvidersUpload = require('../services/providers/upload');
 
 module.exports = {
-    upload: executeService(ProvidersUpload, req => ({}))
+    upload: executeService(ProvidersUpload, req => ({ file: req.file, ...req.body }))
 }

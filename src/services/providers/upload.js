@@ -1,4 +1,5 @@
 const Service = require('../../classes/Service');
+const { parseCsv } = require('../../util/data');
 const { makeHttpResponse } = require('../../util/api');
 
 
@@ -13,7 +14,11 @@ class ProvidersUpload extends Service {
     }
 
     executeService(data) {
-        return Promise.resolve(makeHttpResponse({ statusCode: 201, data: { ok: 'ok' } }));
+        const { file, provider } = data;
+        return parseCsv(file)
+            .then(data => {
+                return makeHttpResponse({ statusCode: 201, data: data });
+            });
     }
 
 };
