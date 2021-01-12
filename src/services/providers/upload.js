@@ -2,6 +2,7 @@ const Service = require('../../classes/Service');
 const ProviderModel = require('../../models/providers');
 const { parseCsv, parseWithProviderConfiguration } = require('../../util/data');
 const { makeHttpResponse } = require('../../util/api');
+const { required, isNotNull } = require('../../util/validators');
 const providersConfig = require('../../util/providersConfig');
 
 class ProvidersUpload extends Service {
@@ -13,7 +14,12 @@ class ProvidersUpload extends Service {
     validate(data) {
         const { provider, ...rest } = data;
 
+        required(data, 'file');
+        required(data, 'provider');
+
         const providerConfig = providersConfig.find(p => p.name === provider);
+
+        isNotNull(providerConfig, `Provider with the name of "${provider}" does not exist.`);
 
         return { ...rest, provider: providerConfig };
     }
